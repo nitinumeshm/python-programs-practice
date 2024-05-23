@@ -11,41 +11,58 @@ def bin_search(target, array):
     
     ## If the country name cannot be searched using binary search method
     if middle < 0:
-        print("{} might not exist in the list.".format(target))
+        print("{} might not exist in the list.\n".format(target))
         time.sleep(2)
-        print("To be a 100% certain that it doesn't exist in the list, performing a linear search instead...")
+        print("To be a 100% certain that it doesn't exist in the list, performing a linear search instead...\n")
         time.sleep(2)
-        lin_search(key, countries)
         return -1
 
     ## If it is a perfect match
     elif target.lower() == array[middle].lower():
-        print("{} exists in the list...".format(key))
+        print("{} exists in the list...\n".format(target))
         if target != array[middle]:
-            time.sleep(1)
-            print("Actual name in the list: {}".format(array[middle]))
+            time.sleep(2)
+            print("Actual name in the list: {}\n".format(array[middle]))
         return 0
 
     ## Choose second half if target greater than middle element
     elif target.lower() > array[middle].lower(): 
-        bin_search(target, array[middle+1:])
+        if bin_search(target, array[middle+1:]) == -1:
+            return -1
 
     ## Choose first half if target less than middle element
     elif target.lower() < array[middle].lower():
-        bin_search(target, array[:middle])
+        if bin_search(target, array[:middle]) == -1:
+            return -1
 
 
 ## Function to linear search a country name in the given list
 def lin_search(target, array):
-    for item in array:
+    temp = []
+    
+    for item in array: 
         if target.lower() in item.lower():
-            print("{} exists in the list.".format(target))
             if target != item:
-                time.sleep(2)
-                print("Actual name in the list: {}".format(item))
-            return 0
-    print("{} doesn't exist at all in the list.".format(target))
-    return -1
+                temp.append(item)
+
+    if len(temp) == 0:
+        print("{} doesn't exist at all in the list.\n".format(target))
+        return -1
+
+    elif len(temp) == 1:
+        print("I think you're searching for {}".format(temp[0]))
+        return 0
+
+    elif len(temp) > 1:
+        print("The country name that you're searching for is one of the following...\n")
+        time.sleep(2)
+        counter = 1
+        for element in temp:
+            print("{}: {}".format(counter, element))
+            counter = counter + 1
+            time.sleep(2)
+        print("\nTHAT's IT!!!\n")
+        return 1
 
 ## Initialising the list using a text file
 def initialise():
@@ -58,11 +75,13 @@ def initialise():
 ##### ACTUAL START OF THE PROGRAM #####
 key = input("Enter the country name you want to search: ")
 
-print("Searching...")
+print("\nSearching...")
 time.sleep(2)
 
 if key == "":
-    print("Invalid!")
+    print("\nInvalid!")
 else:
     countries = initialise()
-    bin_search(key, countries)
+    if bin_search(key, countries) == -1:
+        countries = initialise()
+        lin_search(key, countries)
