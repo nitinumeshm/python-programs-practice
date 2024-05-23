@@ -59,10 +59,22 @@ def lin_search(target, array):
         counter = 1
         for element in temp:
             print("{}: {}".format(counter, element))
+            if element == "United Kingdom":
+                time.sleep(2)
+                print("      United Kingdom consists for 4 countries: ")
+                time.sleep(1)
+                print("         England")
+                time.sleep(1)
+                print("         Wales")
+                time.sleep(1)
+                print("         Scotland")
+                time.sleep(1)
+                print("         Northern Ireland")
             counter = counter + 1
             time.sleep(2)
         print("\nTHAT's IT!!!\n")
         return 1
+        
 
 ## Initialising the list using a text file
 def initialise():
